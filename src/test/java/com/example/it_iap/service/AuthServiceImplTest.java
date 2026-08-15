@@ -10,7 +10,7 @@
 //import com.example.test.exception.ErrorCode;
 //import com.example.test.repository.RoleRepository;
 //import com.example.test.repository.UserRepository;
-//import com.example.test.service.impl.AuthServiceImpl;
+//import com.example.test.service.AuthServiceImpl;
 //import com.nimbusds.jose.JOSEException;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

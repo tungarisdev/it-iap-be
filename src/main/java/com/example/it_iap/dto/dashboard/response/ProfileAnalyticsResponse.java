@@ -1,10 +1,7 @@
 package com.example.it_iap.dto.dashboard.response;
 
-import com.example.it_iap.entity.Json.DailyStudyStat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 @AllArgsConstructor

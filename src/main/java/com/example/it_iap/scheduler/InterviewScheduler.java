@@ -5,7 +5,6 @@ import com.example.it_iap.entity.InterviewQuestion;
 import com.example.it_iap.entity.Json.AIFeedback;
 import com.example.it_iap.entity.enums.InterviewQuestionStatus;
 import com.example.it_iap.entity.enums.InterviewStatus;
-import com.example.it_iap.repository.InterviewQuestionRepository;
 import com.example.it_iap.repository.InterviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InterviewScheduler {
     private final InterviewRepository interviewRepository;
-    private final InterviewQuestionRepository interviewQuestionRepository;
 
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional

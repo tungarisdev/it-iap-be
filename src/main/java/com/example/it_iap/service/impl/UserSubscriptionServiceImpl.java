@@ -3,7 +3,6 @@ package com.example.it_iap.service.impl;
 import com.example.it_iap.entity.Order;
 import com.example.it_iap.entity.User;
 import com.example.it_iap.entity.UserSubscription;
-import com.example.it_iap.entity.enums.AccountTier;
 import com.example.it_iap.repository.UserSubscriptionRepository;
 import com.example.it_iap.service.UserSubscriptionService;
 import lombok.RequiredArgsConstructor;

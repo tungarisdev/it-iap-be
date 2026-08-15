@@ -3,7 +3,6 @@ package com.example.it_iap.dto.report.response;
 import com.example.it_iap.entity.enums.ReportStatus;
 import com.example.it_iap.entity.enums.ReportType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

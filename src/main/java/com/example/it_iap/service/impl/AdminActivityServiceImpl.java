@@ -6,7 +6,6 @@ import com.example.it_iap.entity.User;
 import com.example.it_iap.entity.enums.AdminActionType;
 import com.example.it_iap.repository.AdminActivityLogRepository;
 import com.example.it_iap.service.AdminActivityService;
-import com.example.it_iap.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdminActivityServiceImpl implements AdminActivityService {
     public final AdminActivityLogRepository adminActivityLogRepository;
-    private final UserService userService;
 
     @Async
     public void logActivity(AdminActionType actionType, String description, User user) {

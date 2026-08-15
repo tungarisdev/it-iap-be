@@ -1,12 +1,8 @@
 package com.example.it_iap.dto.notification.request;
 
-import com.example.it_iap.entity.enums.NotificationType;
-import com.example.it_iap.validator.annotation.EnumValue;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter

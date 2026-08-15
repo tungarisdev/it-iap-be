@@ -75,7 +75,7 @@ public class AuthController {
 
     @Operation(summary = "Xác thực Email bằng OTP")
     @PostMapping("/verify-email")
-    public ResponseEntity<ApiResponse> verifyEmail(@RequestBody @Valid VerifyEmailRequest request) {
+    public ResponseEntity<?> verifyEmail(@RequestBody @Valid VerifyEmailRequest request) {
         authService.verifyEmail(request);
         return ResponseEntity.ok(ApiResponse.builder()
                 .build());
@@ -83,7 +83,7 @@ public class AuthController {
 
     @Operation(summary = "Gửi lại mã OTP kích hoạt tài khoản")
     @PostMapping("/resend-otp")
-    public ResponseEntity<ApiResponse> resendOtp(@RequestBody @Valid ResendOtpRequest request) {
+    public ResponseEntity<?> resendOtp(@RequestBody @Valid ResendOtpRequest request) {
         authService.resendOtp(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(
                 ApiResponse.builder()
@@ -93,7 +93,7 @@ public class AuthController {
 
     @Operation(summary = "Đăng xuất tài khoản", description = "Xóa phiên đăng nhập hiện tại và xóa cookie tokens")
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse> logout(HttpServletRequest request, HttpServletResponse response)
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response)
             throws JOSEException, ParseException {
         authService.logout(request, response);
         return ResponseEntity.ok(ApiResponse.builder()

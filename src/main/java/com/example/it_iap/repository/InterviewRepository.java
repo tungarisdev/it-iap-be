@@ -4,8 +4,6 @@ import com.example.it_iap.entity.Interview;
 import com.example.it_iap.entity.User;
 import com.example.it_iap.entity.enums.InterviewMode;
 import com.example.it_iap.entity.enums.InterviewStatus;
-import com.example.it_iap.entity.enums.TargetLevel;
-import com.example.it_iap.entity.enums.TargetPosition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,6 +1,5 @@
 package com.example.it_iap.entity;
 
-import com.example.it_iap.entity.Json.DailyStudyStat;
 import com.example.it_iap.entity.Json.ResumeData;
 import com.example.it_iap.entity.enums.TargetLevel;
 import com.example.it_iap.entity.enums.TargetPosition;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

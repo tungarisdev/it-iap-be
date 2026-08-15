@@ -47,7 +47,7 @@ public class ProfileController {
 
     @Operation(summary = "Xóa hồ sơ")
     @DeleteMapping("/{profileId}")
-    public ResponseEntity<ApiResponse> deleteProfile (@PathVariable long profileId){
+    public ResponseEntity<?> deleteProfile (@PathVariable long profileId){
         profileService.deleteProfile(profileId);
         return ResponseEntity.ok(
                 ApiResponse.builder()

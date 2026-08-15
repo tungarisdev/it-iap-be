@@ -1,6 +1,5 @@
 package com.example.it_iap.dto.feedback.request;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;

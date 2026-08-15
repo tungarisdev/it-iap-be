@@ -36,7 +36,7 @@ public class PromptVersionController {
             description = "Thiết lập một phiên bản làm phiên bản chính thức (Active) cho hệ thống sử dụng."
     )
     @PatchMapping("/active")
-    public ResponseEntity<ApiResponse> setPromptVersionActive(
+    public ResponseEntity<?> setPromptVersionActive(
             @Valid @RequestBody PromptVersionIdRequest request
     ) {
         promptVersionService.setPromptVersionActive(request);

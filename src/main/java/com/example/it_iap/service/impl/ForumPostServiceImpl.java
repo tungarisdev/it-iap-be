@@ -11,7 +11,6 @@ import com.example.it_iap.dto.dashboard.response.ProfileAnalyticsResponse;
 import com.example.it_iap.dto.forumPost.response.StreakLeaderBoardResponse;
 import com.example.it_iap.entity.*;
 import com.example.it_iap.entity.enums.InterviewStatus;
-import com.example.it_iap.entity.enums.TargetLevel;
 import com.example.it_iap.repository.*;
 import com.example.it_iap.service.ProfileService;
 import org.springframework.data.domain.PageRequest;

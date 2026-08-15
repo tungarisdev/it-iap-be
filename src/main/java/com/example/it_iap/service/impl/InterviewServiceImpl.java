@@ -139,7 +139,6 @@ public class InterviewServiceImpl implements InterviewService {
 
         interviewQuestionService.saveUserAnswerForStressInterview(answeredIq, userAnswer);
 
-        Profile profile = interview.getProfile();
         userService.updateStudyStats();
 
         InterviewQuestion interviewQuestion = interviewQuestionService
@@ -240,7 +239,6 @@ public class InterviewServiceImpl implements InterviewService {
 
         interviewQuestionService.completeInterviewQuestion(interviewQuestion);
 
-        Profile profile = interview.getProfile();
         userService.updateStudyStats();
 
         InterviewQuestion nextInterviewQuestion = interviewQuestionService.activateNextUnansweredQuestion(interview.getId(), interviewMode);

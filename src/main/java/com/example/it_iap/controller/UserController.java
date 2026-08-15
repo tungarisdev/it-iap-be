@@ -76,7 +76,7 @@ public class UserController {
 
     @Operation(summary = "Cập nhật ảnh đại diện", description = "Tải lên tệp ảnh để thay đổi avatar cá nhân")
     @PostMapping(consumes = "multipart/form-data", value = "/avatar")
-    public ResponseEntity<ApiResponse> updateAvatar(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> updateAvatar(@RequestParam("file") MultipartFile file) {
         String avatarUrl = userService.updateAvatar(file);
         return ResponseEntity.ok(ApiResponse.builder()
                 .data(avatarUrl)
@@ -85,7 +85,7 @@ public class UserController {
 
     @Operation(summary = "Đổi mật khẩu", description = "Người dùng tự thay đổi mật khẩu hiện tại")
     @PostMapping("/change-password")
-    public ResponseEntity<ApiResponse> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
         userService.changePassword(request);
         return ResponseEntity.ok(
                 ApiResponse.builder()
@@ -105,7 +105,7 @@ public class UserController {
 
     @Operation(summary = "Yêu cầu thay đổi địa chỉ email")
     @PostMapping("/change-email")
-    public ResponseEntity<ApiResponse> changeEmail(@RequestBody @Valid ChangeEmailRequest request) {
+    public ResponseEntity<?> changeEmail(@RequestBody @Valid ChangeEmailRequest request) {
         userService.changeEmail(request);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(
                 ApiResponse.builder()
@@ -115,7 +115,7 @@ public class UserController {
 
     @Operation(summary = "Xác nhận mã OTP để hoàn tất đổi email")
     @PostMapping("/verify-change-email")
-    public ResponseEntity<ApiResponse> verifyChangeEmail(@RequestBody @Valid VerifyChangeEmailRequest request) {
+    public ResponseEntity<?> verifyChangeEmail(@RequestBody @Valid VerifyChangeEmailRequest request) {
         userService.verifyChangeEmail(request.getOtp());
         return ResponseEntity.ok(
                 ApiResponse.builder()

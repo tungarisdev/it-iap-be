@@ -39,7 +39,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             String resourceType = "image";
 
             // Upload lên Cloudinary
-            Map uploadResult = cloudinary.uploader().upload(file.getBytes(),
+            Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(),
                     ObjectUtils.asMap(
                             "resource_type", resourceType,
                             "folder", uploadFolder.getFolder(), // Tên thư mục lưu

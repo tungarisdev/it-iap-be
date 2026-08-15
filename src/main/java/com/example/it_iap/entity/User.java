@@ -8,7 +8,6 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,26 +42,34 @@ public class User extends Auditable {
 
     private LocalDateTime deletedAt;
 
+    @Builder.Default
     private boolean isActive = true;
 
+    @Builder.Default
     private boolean isVerifyEmail = false;
 
+    @Builder.Default
     private boolean enable2fa = false;
 
     private String secret2fa;
 
     private LocalDateTime scheduled2faDisableAt;
 
+    @Builder.Default
     private Integer currentStreak = 0;
 
+    @Builder.Default
     private Integer longestStreak = 0;
 
     private LocalDateTime lastInterviewDate;
 
+    @Builder.Default
     private Integer totalCompletedInterviews = 0;
 
+    @Builder.Default
     private Double currentGpa = 0.0;
 
+    @Builder.Default
     @JdbcTypeCode(SqlTypes.JSON)
     private List<DailyStudyStat> dailyStudyStats = new ArrayList<>();
 

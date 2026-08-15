@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/ai")
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class AIController {
     )
     @PostMapping("/generate-question")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse> generateQuestion (@RequestBody @Valid GenerateQuestionRequest request){
+    public ResponseEntity<?> generateQuestion (@RequestBody @Valid GenerateQuestionRequest request){
         TargetLevel targetLevel = TargetLevel.fromString(request.getLevel());
         TargetPosition targetPosition = TargetPosition.fromString(request.getPosition());
         questionService.generateAndSaveAiQuestions(request.getQuantity(), targetLevel, targetPosition);

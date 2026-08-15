@@ -21,7 +21,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     // Bắt các lỗi Runtime không mong muốn
     @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception, HttpServletRequest request){
+    ResponseEntity<?> handlingRuntimeException(RuntimeException exception, HttpServletRequest request){
         ErrorCode errorCode = ErrorCode.SYSTEM_ERROR;
         log.error("path: {}", request.getRequestURI(), exception);
         return ResponseEntity.status(errorCode.getStatusCode())
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
 
     // Xử lý lỗi khi cấu trúc Token không đúng định dạng hoặc không thể giải mã.
     @ExceptionHandler(value = ParseException.class)
-    ResponseEntity<ApiResponse> handlingParseException(ParseException exception){
+    ResponseEntity<?> handlingParseException(ParseException exception){
         ErrorCode errorCode = ErrorCode.AUTHENTICATION_FAILED;
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
 
     // Xử lý riêng lỗi kết nối Redis (Cache/OTP).
     @ExceptionHandler(RedisConnectionFailureException.class)
-    public ResponseEntity<ApiResponse> handleRedisError(
+    public ResponseEntity<?> handleRedisError(
             RedisConnectionFailureException exception, HttpServletRequest request) {
         ErrorCode errorCode = ErrorCode.SYSTEM_ERROR;
         log.error("Lỗi kết nối redis. Path: {}", request.getRequestURI(), exception);
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = ObjectOptimisticLockingFailureException.class)
-    ResponseEntity<ApiResponse> handlingOptimisticLockingException(ObjectOptimisticLockingFailureException exception) {
+    ResponseEntity<?> handlingOptimisticLockingException(ObjectOptimisticLockingFailureException exception) {
         ErrorCode errorCode = ErrorCode.CONCURRENT_UPDATE;
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()
@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
     // Xử lý các lỗi nghiệp vụ do chính ta ném ra chủ động (AppException).
     // Tự động bóc tách errorCode và data bổ sung (nếu có) để trả về cho Frontend.
     @ExceptionHandler(value = AppException.class)
-    ResponseEntity<ApiResponse> handlingAppException(AppException exception){
+    ResponseEntity<?> handlingAppException(AppException exception){
         ErrorCode errorCode = exception.getErrorCode();
         Object data = exception.getData();
         return ResponseEntity.status(errorCode.getStatusCode())
@@ -81,7 +81,7 @@ public class GlobalExceptionHandler {
 
     // Xử lý lỗi liên quan tới bảo mật API (403)
     @ExceptionHandler(value = AuthorizationDeniedException.class)
-    ResponseEntity<ApiResponse> handlingAuthorizationDeniedException(AuthorizationDeniedException exception){
+    ResponseEntity<?> handlingAuthorizationDeniedException(AuthorizationDeniedException exception){
         ErrorCode errorCode = ErrorCode.ACCESS_DENIED;
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()
@@ -93,7 +93,7 @@ public class GlobalExceptionHandler {
     // Xử lý lỗi Validation (khi dùng @Valid ở Controller).
     // Trả về một Map chứa chi tiết từng trường bị lỗi và thông báo tương ứng.
     @ExceptionHandler( value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> handlingMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+    ResponseEntity<?> handlingMethodArgumentNotValidException(MethodArgumentNotValidException exception){
         ErrorCode errorCode = ErrorCode.DATA_INVALID;
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
@@ -121,7 +121,7 @@ public class GlobalExceptionHandler {
 
     // Xử lý lỗi liên quan tới lỗi dữ liệu truyền vào (rác rác)
     @ExceptionHandler(value = HttpMessageNotReadableException.class)
-    ResponseEntity<ApiResponse> handlingHttpMessageNotReadableException(HttpMessageNotReadableException exception){
+    ResponseEntity<?> handlingHttpMessageNotReadableException(HttpMessageNotReadableException exception){
         ErrorCode errorCode = ErrorCode.DATA_INVALID;
         return ResponseEntity.status(errorCode.getStatusCode())
                 .body(ApiResponse.builder()

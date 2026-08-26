@@ -1,5 +1,6 @@
 package com.example.it_iap.controller;
 
+import com.example.it_iap.dto.auth.response.TwoFactorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.it_iap.dto.ApiResponse;
@@ -16,76 +17,99 @@ import org.springframework.http.ResponseEntity;
 import com.example.it_iap.dto.auth.request.ResetTwoFactorRequest;
 
 @RestController
-@RequestMapping("/api/v1/2fa")
+@RequestMapping("/api/2fa")
 @RequiredArgsConstructor
 public class TotpController {
     private final AuthService authService;
-    
+
     @Operation(summary = "Thiết lập xác thực 2 bước")
     @PostMapping("/setup")
-    public ResponseEntity<?> setup() {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .data(authService.setup2fa())
-                        .build());
+    public ResponseEntity<ApiResponse<TwoFactorResponse>> setup() {
+        TwoFactorResponse response = authService.setup2fa();
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<TwoFactorResponse>builder()
+                    .message("Yêu cầu thiết lập xác minh 2 bước thành công")
+                    .data(response)
+                    .build());
     }
 
-    @Operation(summary = "Xác nhận xác thực 2 bước", description = "[TEST API] dán secret của api /setup vào https://stefansundin.github.io/2fa-qr/")
+    @Operation(
+        summary = "Xác nhận xác thực 2 bước",
+        description = "[TEST API] dán secret của api /setup vào https://stefansundin.github.io/2fa-qr/"
+    )
     @PostMapping("/confirm")
-    public ResponseEntity<?> confirm(@RequestBody @Valid TwoFactorRequest request) {
+    public ResponseEntity<ApiResponse<Void>> confirm(@RequestBody @Valid TwoFactorRequest request) {
         authService.confirm2fa(request);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .message("Bật xác thực 2 bước thành công")
-                        .build());
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Void>builder()
+                    .message("Bật xác thực 2 bước thành công")
+                    .build());
     }
 
     @Operation(summary = "Hủy xác thực 2 bước")
     @PostMapping("/disable")
-    public ResponseEntity<?> disable(@RequestBody @Valid TwoFactorRequest request) {
+    public ResponseEntity<ApiResponse<Void>> disable(@RequestBody @Valid TwoFactorRequest request) {
         authService.disable2fa(request);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .message("Hủy xác thực 2 bước thành công")
-                        .build());
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Void>builder()
+                    .message("Hủy xác thực 2 bước thành công")
+                    .build());
     }
 
     @Operation(summary = "Lấy trạng thái xác thực 2 bước của tài khoản")
     @GetMapping("/status")
-    public ResponseEntity<?> status() {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                .data(authService.status2fa())
-                        .build());
+    public ResponseEntity<ApiResponse<Boolean>> status() {
+        boolean data = authService.status2fa();
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Boolean>builder()
+                    .message("Lấy trạng thái xác thực 2 bước thành công")
+                    .data(data)
+                    .build());
     }
 
-    @Operation(summary = "Yêu cầu khôi phục / gỡ 2FA qua Email", description = "Gửi email xác thực khôi phục 2FA có hiệu lực 10 phút")
+    @Operation(
+        summary = "Yêu cầu khôi phục / gỡ 2FA qua Email",
+        description = "Gửi email xác thực khôi phục 2FA có hiệu lực 10 phút"
+    )
     @PostMapping("/request-reset")
-    public ResponseEntity<?> requestReset() {
+    public ResponseEntity<ApiResponse<Void>> requestReset() {
         authService.requestReset2fa();
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .message("Một email xác nhận khôi phục 2FA đã được gửi tới địa chỉ email của bạn")
-                        .build());
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Void>builder()
+                    .message("Yêu cầu xử lý xác thực 2 bước thành công")
+                    .build());
     }
 
-    @Operation(summary = "Xác nhận gỡ 2FA (Bắt đầu đếm ngược 24h)", description = "Xác nhận từ link email, hệ thống sẽ đưa vào đếm ngược 24 giờ trước khi gỡ hẳn 2FA")
+    @Operation(
+        summary = "Xác nhận gỡ 2FA (Bắt đầu đếm ngược 24h)",
+        description = "Xác nhận từ link email, hệ thống sẽ đưa vào đếm ngược 24 giờ trước khi gỡ hẳn 2FA"
+    )
     @PostMapping("/confirm-reset")
-    public ResponseEntity<?> confirmReset(@RequestBody @Valid ResetTwoFactorRequest request) {
+    public ResponseEntity<ApiResponse<Void>> confirmReset(@RequestBody @Valid ResetTwoFactorRequest request) {
         authService.confirmReset2fa(request);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .message("Yêu cầu gỡ 2FA đã được xác nhận. Tính năng 2FA sẽ chính thức bị tắt sau 24 giờ")
-                        .build());
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Void>builder()
+                    .message("Xác nhận gỡ xác thực 2 bước thành công")
+                    .build());
     }
 
-    @Operation(summary = "Từ chối / Hủy yêu cầu gỡ 2FA (Không phải tôi)", description = "Hủy bỏ đợt yêu cầu gỡ 2FA và giữ nguyên trạng thái an toàn cho tài khoản")
+    @Operation(
+        summary = "Từ chối / Hủy yêu cầu gỡ 2FA (Không phải tôi)",
+        description = "Hủy bỏ đợt yêu cầu gỡ 2FA và giữ nguyên trạng thái an toàn cho tài khoản"
+    )
     @PostMapping("/cancel-reset")
-    public ResponseEntity<?> cancelReset(@RequestBody @Valid ResetTwoFactorRequest request) {
+    public ResponseEntity<ApiResponse<Void>> cancelReset(@RequestBody @Valid ResetTwoFactorRequest request) {
         authService.cancelReset2fa(request);
-        return ResponseEntity.status(HttpStatus.OK).body(
-                ApiResponse.builder()
-                        .message("Đã hủy bỏ yêu cầu gỡ 2FA. Tài khoản của bạn vẫn được bảo vệ bằng xác thực 2 bước")
-                        .build());
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                ApiResponse.<Void>builder()
+                    .message("Hủy bỏ xử lý xác thực 2 bước thành công")
+                    .build());
     }
 }

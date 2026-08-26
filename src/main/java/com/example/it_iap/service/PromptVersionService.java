@@ -2,7 +2,7 @@ package com.example.it_iap.service;
 
 import com.example.it_iap.dto.adminPrompt.response.AdminPromptResponse;
 import com.example.it_iap.dto.promptVersion.request.PromptVersionIdRequest;
-import com.example.it_iap.dto.promptVersion.request.PromptVersionRequest;
+import com.example.it_iap.dto.promptVersion.request.CreatePromptVersionRequest;
 import com.example.it_iap.entity.AdminPrompt;
 import com.example.it_iap.entity.PromptVersion;
 import com.example.it_iap.entity.enums.AdminActionType;
@@ -39,7 +39,7 @@ public class PromptVersionService {
         }
     }
 
-    public PromptVersion createPromptVersion (PromptVersionRequest request, AdminPrompt adminPrompt){
+    public PromptVersion createPromptVersion (CreatePromptVersionRequest request, AdminPrompt adminPrompt){
         isValidProviderAndModel(request.getProvider(), request.getModel());
 
         // Check trùng version nội bộ của Prompt này trước khi lưu

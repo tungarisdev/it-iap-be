@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
 @Getter
-public class VerifyForgotPasswordRequest {
+public class VerifyResetPasswordRequest {
     @NotNull(message = "EMAIL_INVALID")
     private String email;
 

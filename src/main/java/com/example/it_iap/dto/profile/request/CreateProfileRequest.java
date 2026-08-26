@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class ProfileRequest {
+public class CreateProfileRequest {
     @NotBlank(message = "TITLE_INVALID")
     private String title;
 

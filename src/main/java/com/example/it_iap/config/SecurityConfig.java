@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/oauth2/**", "/api/v1/orders/webhook/payos")
+                        .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/oauth2/**", "/api/orders/webhook/payos")
                         .permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
@@ -63,7 +63,7 @@ public class SecurityConfig {
                             String path = request.getRequestURI();
 
                             // Các path public: không cố resolve/validate token, kể cả khi cookie có sẵn
-                            if (path.startsWith("/api/v1/auth/")
+                            if (path.startsWith("/api/auth/")
                                     || path.startsWith("/swagger-ui/")
                                     || path.startsWith("/v3/api-docs/")
                                     || path.startsWith("/oauth2/")) {

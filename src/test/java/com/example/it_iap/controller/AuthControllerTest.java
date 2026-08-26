@@ -66,7 +66,7 @@
 //        String request = objectMapper.writeValueAsString(loginRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                            .post("/api/v1/auth/login")
+//                            .post("/api/auth/login")
 //                            .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                            .content(request)
 //                        )
@@ -86,7 +86,7 @@
 //        String request = objectMapper.writeValueAsString(loginRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/login")
+//                        .post("/api/auth/login")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -106,7 +106,7 @@
 //        String request = objectMapper.writeValueAsString(loginRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/login")
+//                        .post("/api/auth/login")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -120,7 +120,7 @@
 //        String request = objectMapper.writeValueAsString(registerRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/register")
+//                        .post("/api/auth/register")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -138,7 +138,7 @@
 //        String request = objectMapper.writeValueAsString(registerRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/register")
+//                        .post("/api/auth/register")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -158,7 +158,7 @@
 //        String request = objectMapper.writeValueAsString(registerRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/register")
+//                        .post("/api/auth/register")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -175,7 +175,7 @@
 //        String request = objectMapper.writeValueAsString(registerRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/register")
+//                        .post("/api/auth/register")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -191,7 +191,7 @@
 //        Mockito.when(authService.refreshToken(any())).thenReturn(tokenResponse);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/refresh")
+//                        .post("/api/auth/refresh")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )
@@ -211,7 +211,7 @@
 //        String request = objectMapper.writeValueAsString(refreshTokenRequest);
 //
 //        mockMvc.perform(MockMvcRequestBuilders
-//                        .post("/api/v1/auth/refresh")
+//                        .post("/api/auth/refresh")
 //                        .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                        .content(request)
 //                )

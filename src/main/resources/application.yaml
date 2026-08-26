@@ -12,6 +12,9 @@ app:
     secure: ${SECURE}
   user:
     default-password: ${USER_DEFAULT_PASSWORD}
+  admin:
+    email: ${ADMIN_EMAIL}
+    default-password: ${ADMIN_DEFAULT_PASSWORD}
 
 spring:
   ai:
@@ -25,7 +28,7 @@ spring:
   application:
     name: it-iap
   datasource:
-    url: ${DBMS_CONNECTION}
+    url: ${DBMS_CONNECTION_URL}
     username: ${DBMS_USERNAME}
     password: ${DBMS_PASSWORD}
   jpa:

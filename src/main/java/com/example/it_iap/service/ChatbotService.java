@@ -1,7 +1,7 @@
 package com.example.it_iap.service;
 
 import com.example.it_iap.AI.TokenUsageAdvisor;
-import com.example.it_iap.dto.chatbot.request.ChatbotRequest;
+import com.example.it_iap.dto.chatbot.request.ChatRequest;
 import com.example.it_iap.dto.chatbot.response.ChatbotResponse;
 import com.example.it_iap.entity.ChatSession;
 import com.example.it_iap.service.ChatbotService;
@@ -23,7 +23,7 @@ public class ChatbotService {
 
     private final ChatSessionService chatSessionService;
 
-    public ChatbotResponse chatbot (ChatbotRequest request){
+    public ChatbotResponse chatbot (ChatRequest request){
         ChatSession chatSession = chatSessionService.getChatSession(request.getSessionId());
         String systemPromptTemplate = chatSession.getPromptVersion().getPromptContent();
 

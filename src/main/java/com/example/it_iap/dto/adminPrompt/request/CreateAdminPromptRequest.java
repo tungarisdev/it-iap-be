@@ -1,6 +1,6 @@
 package com.example.it_iap.dto.adminPrompt.request;
 
-import com.example.it_iap.dto.promptVersion.request.PromptVersionRequest;
+import com.example.it_iap.dto.promptVersion.request.CreatePromptVersionRequest;
 import com.example.it_iap.entity.enums.PromptUseCase;
 import com.example.it_iap.validator.annotation.EnumValue;
 import jakarta.validation.Valid;
@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminPromptRequest {
+public class CreateAdminPromptRequest {
 
     @NotBlank(message = "PROMPT_KEY_INVALID")
     @Size(max = 100, message = "PROMPT_KEY_INVALID")
@@ -24,5 +24,5 @@ public class AdminPromptRequest {
     private String applyFor;
 
     @Valid
-    private PromptVersionRequest promptVersionRequest;
+    private CreatePromptVersionRequest promptVersionRequest;
 }

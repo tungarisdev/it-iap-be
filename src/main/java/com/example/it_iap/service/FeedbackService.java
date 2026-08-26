@@ -2,7 +2,7 @@ package com.example.it_iap.service;
 
 import com.example.it_iap.dto.feedback.request.AdminReplyRequest;
 import com.example.it_iap.dto.feedback.request.FeedbackFilterRequest;
-import com.example.it_iap.dto.feedback.request.FeedbackRequest;
+import com.example.it_iap.dto.feedback.request.CreateFeedbackRequest;
 import com.example.it_iap.dto.feedback.response.FeedbackResponse;
 import com.example.it_iap.entity.Feedback;
 import com.example.it_iap.entity.Notification;
@@ -47,7 +47,7 @@ public class FeedbackService {
     private final NotificationRepository notificationRepository;
 
     @Transactional
-    public FeedbackResponse createFeedback(FeedbackRequest request) {
+    public FeedbackResponse createFeedback(CreateFeedbackRequest request) {
         User user = userService.getCurrentUser();
 
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();

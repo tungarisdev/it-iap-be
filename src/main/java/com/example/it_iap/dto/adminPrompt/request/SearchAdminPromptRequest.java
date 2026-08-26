@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminPromptSearchRequest {
+public class SearchAdminPromptRequest {
     private String promptKey;
 
     @EnumValue(enumClass = PromptUseCase.class, message = "PROMPT_USE_CASE_INVALID")

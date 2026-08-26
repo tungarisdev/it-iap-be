@@ -1,7 +1,7 @@
 package com.example.it_iap.config;
 
-import com.example.it_iap.dto.adminPrompt.request.AdminPromptRequest;
-import com.example.it_iap.dto.promptVersion.request.PromptVersionRequest;
+import com.example.it_iap.dto.adminPrompt.request.CreateAdminPromptRequest;
+import com.example.it_iap.dto.promptVersion.request.CreatePromptVersionRequest;
 import com.example.it_iap.entity.User;
 import com.example.it_iap.entity.enums.PromptUseCase;
 import com.example.it_iap.entity.enums.Role;
@@ -27,8 +27,11 @@ public class ApplicationInitConfig {
     private final UserRepository userRepository;
     private final AdminPromptService adminPromptService;
 
-    @Value("${spring.mail.username:vumitha2005@gmail.com}")
+    @Value("${app.admin.email}")
     private String email;
+
+    @Value("${app.admin.default-password}")
+    private String password;
 
     @Bean
     ApplicationRunner applicationRunner(){
@@ -40,52 +43,50 @@ public class ApplicationInitConfig {
 
                 User user = new User();
                 user.setRoles(roles);
-                user.setPassword(passwordEncoder.encode("admin12345"));
-                user.setFullName("admin");
+                user.setPassword(passwordEncoder.encode(password));
+                user.setFullName("Administrator");
                 user.setEmail(email);
                 user.setVerifyEmail(true);
 
                 userRepository.save(user);
-
-                log.info("Người dùng admin đã được tạo với email và mật khẩu mặc định: {} và admin12345, vui lòng đổi mật khẩu", email);
             }
 
             if(adminPromptService.searchAdminPrompts(null, PromptUseCase.QUESTION_GENERATOR, true, 0).isEmpty()) {
-                AdminPromptRequest genQuestionRequest = getGenQuestionPrompt();
+                CreateAdminPromptRequest genQuestionRequest = getGenQuestionPrompt();
                 adminPromptService.createAdminPrompt(genQuestionRequest);
             }
 
             if(adminPromptService.searchAdminPrompts(null, PromptUseCase.STRESS_INTERVIEW, true, 0).isEmpty()) {
-                AdminPromptRequest genFeedbackRequest = getStressInterviewPrompt();
+                CreateAdminPromptRequest genFeedbackRequest = getStressInterviewPrompt();
                 adminPromptService.createAdminPrompt(genFeedbackRequest);
             }
 
 
             if(adminPromptService.searchAdminPrompts(null, PromptUseCase.INTERACTIVE_INTERVIEW, true, 0).isEmpty()) {
-                AdminPromptRequest interactiveRequest = getInteractiveInterviewPrompt();
+                CreateAdminPromptRequest interactiveRequest = getInteractiveInterviewPrompt();
                 adminPromptService.createAdminPrompt(interactiveRequest);
             }
 
             if (adminPromptService.searchAdminPrompts(null, PromptUseCase.GENERAL_FEEDBACK, true, 0).isEmpty()) {
-                AdminPromptRequest genFeedbackRequest = getGeneralFeedbackPrompt();
+                CreateAdminPromptRequest genFeedbackRequest = getGeneralFeedbackPrompt();
                 adminPromptService.createAdminPrompt(genFeedbackRequest);
             }
 
             if (adminPromptService.searchAdminPrompts(null, PromptUseCase.CUSTOMER_SUPPORT, true, 0).isEmpty()) {
-                AdminPromptRequest genChatbotRequest = getGeneralChatbotPrompt();
+                CreateAdminPromptRequest genChatbotRequest = getGeneralChatbotPrompt();
                 adminPromptService.createAdminPrompt(genChatbotRequest);
             }
 
         };
     }
 
-    private static @NonNull AdminPromptRequest getGeneralChatbotPrompt() {
-        AdminPromptRequest generalChatbotRequest = new AdminPromptRequest();
+    private static @NonNull CreateAdminPromptRequest getGeneralChatbotPrompt() {
+        CreateAdminPromptRequest generalChatbotRequest = new CreateAdminPromptRequest();
         generalChatbotRequest.setPromptKey("general_chatbot");
         generalChatbotRequest.setDescription("Prompt mặc định cho hệ thống Chatbot hỗ trợ người dùng, đóng vai trò giải đáp thắc mắc và hướng dẫn sử dụng.");
         generalChatbotRequest.setApplyFor("CUSTOMER_SUPPORT");
 
-        PromptVersionRequest generalChatbotVersion = new PromptVersionRequest();
+        CreatePromptVersionRequest generalChatbotVersion = new CreatePromptVersionRequest();
         generalChatbotVersion.setVersion("v1.0.0");
         generalChatbotVersion.setProvider("GOOGLE");
         generalChatbotVersion.setModel("GEMINI_3_1_FLASH_LITE");
@@ -109,13 +110,13 @@ public class ApplicationInitConfig {
         return generalChatbotRequest;
     }
 
-    private static @NonNull AdminPromptRequest getGeneralFeedbackPrompt() {
-        AdminPromptRequest generalFeedbackRequest = new AdminPromptRequest();
+    private static @NonNull CreateAdminPromptRequest getGeneralFeedbackPrompt() {
+        CreateAdminPromptRequest generalFeedbackRequest = new CreateAdminPromptRequest();
         generalFeedbackRequest.setPromptKey("general_feedback");
         generalFeedbackRequest.setDescription("Prompt tổng hợp điểm số và nhận xét chi tiết của từng câu hỏi để đưa ra đánh giá tổng quan cho toàn bộ buổi phỏng vấn.");
         generalFeedbackRequest.setApplyFor("GENERAL_FEEDBACK");
 
-        PromptVersionRequest generalFeedbackVersion = new PromptVersionRequest();
+        CreatePromptVersionRequest generalFeedbackVersion = new CreatePromptVersionRequest();
         generalFeedbackVersion.setVersion("v1.0.0");
         generalFeedbackVersion.setProvider("GOOGLE");
         generalFeedbackVersion.setModel("GEMINI_3_1_FLASH_LITE");
@@ -147,13 +148,13 @@ public class ApplicationInitConfig {
         return generalFeedbackRequest;
     }
 
-    private static @NonNull AdminPromptRequest getInteractiveInterviewPrompt() {
-        AdminPromptRequest interactiveRequest = new AdminPromptRequest();
+    private static @NonNull CreateAdminPromptRequest getInteractiveInterviewPrompt() {
+        CreateAdminPromptRequest interactiveRequest = new CreateAdminPromptRequest();
         interactiveRequest.setPromptKey("interactive_interview");
         interactiveRequest.setDescription("Prompt điều phối phiên phỏng vấn tương tác (Chat qua lại), hỏi xoáy đáp xoay và chốt điểm.");
         interactiveRequest.setApplyFor("INTERACTIVE_INTERVIEW");
 
-        PromptVersionRequest interactiveVersion = new PromptVersionRequest();
+        CreatePromptVersionRequest interactiveVersion = new CreatePromptVersionRequest();
         interactiveVersion.setVersion("v1.0.0");
         interactiveVersion.setProvider("GOOGLE");
         interactiveVersion.setModel("GEMINI_3_1_FLASH_LITE");
@@ -201,13 +202,13 @@ public class ApplicationInitConfig {
         return interactiveRequest;
     }
 
-    private static @NonNull AdminPromptRequest getStressInterviewPrompt() {
-        AdminPromptRequest genFeedbackRequest = new AdminPromptRequest();
+    private static @NonNull CreateAdminPromptRequest getStressInterviewPrompt() {
+        CreateAdminPromptRequest genFeedbackRequest = new CreateAdminPromptRequest();
         genFeedbackRequest.setPromptKey("stress_interview");
         genFeedbackRequest.setDescription("Tạo feedback cho từng câu hỏi");
         genFeedbackRequest.setApplyFor("STRESS_INTERVIEW");
 
-        PromptVersionRequest genFeedbackVersion = new PromptVersionRequest();
+        CreatePromptVersionRequest genFeedbackVersion = new CreatePromptVersionRequest();
         genFeedbackVersion.setVersion("v1.0.0");
         genFeedbackVersion.setProvider("GOOGLE");
         genFeedbackVersion.setModel("GEMINI_3_1_FLASH_LITE");
@@ -244,13 +245,13 @@ public class ApplicationInitConfig {
         return genFeedbackRequest;
     }
 
-    private static @NonNull AdminPromptRequest getGenQuestionPrompt() {
-        AdminPromptRequest genQuestionRequest = new AdminPromptRequest();
+    private static @NonNull CreateAdminPromptRequest getGenQuestionPrompt() {
+        CreateAdminPromptRequest genQuestionRequest = new CreateAdminPromptRequest();
         genQuestionRequest.setPromptKey("gen_question");
         genQuestionRequest.setDescription("Tạo câu hỏi");
         genQuestionRequest.setApplyFor("QUESTION_GENERATOR");
 
-        PromptVersionRequest genQuestionVersion = new PromptVersionRequest();
+        CreatePromptVersionRequest genQuestionVersion = new CreatePromptVersionRequest();
         genQuestionVersion.setVersion("v1.0.0");
         genQuestionVersion.setProvider("GOOGLE");
         genQuestionVersion.setModel("GEMINI_3_1_FLASH_LITE");

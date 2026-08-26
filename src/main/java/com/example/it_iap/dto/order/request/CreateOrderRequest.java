@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 @Getter
-public class OrderRequest {
+public class CreateOrderRequest {
     @NotBlank(message = "ACCOUNT_TIER_INVALID")
     @EnumValue(enumClass = AccountTier.class, message = "ACCOUNT_TIER_INVALID")
     private String accountTier;

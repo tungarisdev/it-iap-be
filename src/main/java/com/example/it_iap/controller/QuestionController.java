@@ -24,67 +24,75 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/questions")
+@RequestMapping("/api/questions")
 @RestController
 public class QuestionController {
     private final QuestionService questionService;
 
     @Operation(
-        summary = "Tạo câu hỏi thủ công [ADMIN]", 
+        summary = "Tạo câu hỏi thủ công [ADMIN]",
         description = "Danh sách các giá trị hợp lệ của Enum:\n" +
-                      "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
-                      "- level: [INTERN, FRESHER]\n" +
-                      "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
-                      "- source: [ADMIN, AI]\n" +
-                      "Lưu ý: Trường status mặc định khi tạo thủ công là APPROVED."
+            "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
+            "- level: [INTERN, FRESHER]\n" +
+            "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
+            "- source: [ADMIN, AI]\n" +
+            "Lưu ý: Trường status mặc định khi tạo thủ công là APPROVED."
     )
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ApiResponse<QuestionResponse>> create(@RequestBody @Valid QuestionRequest request) {
         QuestionResponse response = questionService.createQuestion(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(
                 ApiResponse.<QuestionResponse>builder()
-                        .code(201)
-                        .data(response)
-                        .build());
+                    .code(201)
+                    .message("Tạo câu hỏi thành công")
+                    .data(response)
+                    .build());
     }
 
     @Operation(
-        summary = "Sửa câu hỏi [ADMIN]", 
+        summary = "Sửa câu hỏi [ADMIN]",
         description = "Danh sách các giá trị hợp lệ của Enum:\n" +
-                      "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
-                      "- level: [INTERN, FRESHER]\n" +
-                      "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
-                      "- source: [ADMIN, AI]\n" +
-                      "- status: [REJECTED, PENDING, APPROVED]"
+            "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
+            "- level: [INTERN, FRESHER]\n" +
+            "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
+            "- source: [ADMIN, AI]\n" +
+            "- status: [REJECTED, PENDING, APPROVED]"
     )
-    @PutMapping("/{id}")
+    @PutMapping("/{questionId}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse<QuestionResponse>> update(@RequestBody @Valid QuestionRequest request, @PathVariable Long id) {
-        QuestionResponse response = questionService.updateQuestion(request, id);
-        return ResponseEntity.status(HttpStatus.OK).body(
+    public ResponseEntity<ApiResponse<QuestionResponse>> update(@RequestBody @Valid QuestionRequest request,
+                                                                @PathVariable Long questionId) {
+        QuestionResponse response = questionService.updateQuestion(request,
+            questionId);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
                 ApiResponse.<QuestionResponse>builder()
-                        .code(200)
-                        .data(response)
-                        .build());
+                    .message("Sửa câu hỏi thành công")
+                    .data(response)
+                    .build());
     }
 
     @Operation(
-        summary = "Tìm kiếm và lọc danh sách câu hỏi [ADMIN]", 
+        summary = "Tìm kiếm và lọc danh sách câu hỏi [ADMIN]",
         description = "Hỗ trợ phân trang (page, size, sort) và lọc nâng cao theo các trường Enum:\n" +
-                      "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
-                      "- level: [INTERN, FRESHER]\n" +
-                      "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
-                      "- source: [ADMIN, AI]\n" +
-                      "- status: [REJECTED, PENDING, APPROVED]"
+            "- position: [FRONTEND, BACKEND, TESTER, DATA_ANALYST]\n" +
+            "- level: [INTERN, FRESHER]\n" +
+            "- category: [TECHNICAL, SITUATIONAL, BEHAVIORAL]\n" +
+            "- source: [ADMIN, AI]\n" +
+            "- status: [REJECTED, PENDING, APPROVED]"
     )
-    @GetMapping()
+    @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse<Page<QuestionResponse>>> search(@ModelAttribute @Valid SearchQuestionRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(
+    public ResponseEntity<ApiResponse<Page<QuestionResponse>>> search(
+        @ModelAttribute @Valid SearchQuestionRequest request) {
+        Page<QuestionResponse> response = questionService.searchQuestion(request);
+        return ResponseEntity.status(HttpStatus.OK)
+            .body(
                 ApiResponse.<Page<QuestionResponse>>builder()
-                        .code(200)
-                        .data(questionService.searchQuestion(request))
-                        .build());
+                    .message("Lấy danh sách câu hỏi thành công")
+                    .data(response)
+                    .build());
     }
 }

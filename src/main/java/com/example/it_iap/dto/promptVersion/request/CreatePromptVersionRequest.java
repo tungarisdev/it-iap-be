@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PromptVersionRequest {
+public class CreatePromptVersionRequest {
     long adminPromptId;
 
     @NotBlank(message = "VERSION_INVALID")

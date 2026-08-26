@@ -293,7 +293,7 @@ public class AuthService {
                 });
     }
 
-    public void verifyForgotPassword (VerifyForgotPasswordRequest request){
+    public void verifyForgotPassword (VerifyResetPasswordRequest request){
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AppException(ErrorCode.OTP_VERIFICATION_FAILED)
                 );

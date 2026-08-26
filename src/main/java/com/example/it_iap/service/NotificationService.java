@@ -3,7 +3,7 @@ package com.example.it_iap.service;
 import java.util.List;
 import java.util.UUID;
 
-import com.example.it_iap.dto.notification.request.AdminCreateNotificationRequest;
+import com.example.it_iap.dto.notification.request.CreateNotificationRequest;
 import com.example.it_iap.dto.notification.request.ReadNotificationRequest;
 import com.example.it_iap.dto.notification.response.AdminGetNotificationResponse;
 import com.example.it_iap.dto.notification.response.ReadNotificationResponse;
@@ -51,7 +51,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public void createNotification(AdminCreateNotificationRequest request) {
+    public void createNotification(CreateNotificationRequest request) {
         int page = 0;
         int size = 500; // 500 user 1 lần gửi
 

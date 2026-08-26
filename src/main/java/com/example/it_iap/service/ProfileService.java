@@ -1,6 +1,6 @@
 package com.example.it_iap.service;
 
-import com.example.it_iap.dto.profile.request.ProfileRequest;
+import com.example.it_iap.dto.profile.request.CreateProfileRequest;
 import com.example.it_iap.dto.profile.request.UpdateProfileRequest;
 import com.example.it_iap.dto.profile.response.ProfileResponse;
 import com.example.it_iap.dto.profile.response.ProfileSummaryResponse;
@@ -33,7 +33,7 @@ public class ProfileService {
     private final UserActivityService userActivityService;
 
     @Transactional
-    public ProfileResponse createProfile (ProfileRequest request){
+    public ProfileResponse createProfile (CreateProfileRequest request){
         User currentUser = userService.getCurrentUser();
 
         int currentProfiles = profileRepository.countByUserIdAndDeletedAtIsNull(currentUser.getId());
@@ -119,7 +119,7 @@ public class ProfileService {
     }
 
     // Hàm chung để đổ dữ liệu từ Request vào Entity Profile.
-    private void mapRequestToProfile(ProfileRequest request, Profile profile) {
+    private void mapRequestToProfile(CreateProfileRequest request, Profile profile) {
         TargetPosition targetPosition = TargetPosition.fromString(request.getTargetPosition());
         TargetLevel targetLevel = TargetLevel.fromString(request.getTargetLevel());
 

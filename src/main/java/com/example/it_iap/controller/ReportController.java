@@ -17,52 +17,72 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/reports")
+@RequestMapping("/api/reports")
 @RequiredArgsConstructor
 public class ReportController {
     private final ReportService reportService;
 
-    @Operation(summary = "Tạo báo cáo mới", description = "Người dùng tạo một báo cáo mới")
+    @Operation(
+        summary = "Tạo báo cáo mới",
+        description = "Người dùng tạo một báo cáo mới"
+    )
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createReport(@RequestBody @Valid CreateReportRequest request) {
         reportService.createReport(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(
                 ApiResponse.<Void>builder()
-                        .code(201)
-                        .build());
+                    .code(201)
+                    .message("Tạo báo cáo mới thành công")
+                    .build());
     }
 
-    @Operation(summary = "Tìm kiếm báo cáo cá nhân [USER]", description = "Người dùng tìm kiếm các báo cáo liên quan đến bản thân")
+    @Operation(
+        summary = "Tìm kiếm báo cáo cá nhân [USER]",
+        description = "Người dùng tìm kiếm các báo cáo liên quan đến bản thân"
+    )
     @GetMapping("/me")
-    public ResponseEntity<ApiResponse<Page<ReportResponse>>> userSearchReport(@ModelAttribute @Valid UserSearchReportRequest request) {
+    public ResponseEntity<ApiResponse<Page<ReportResponse>>> userSearchReport(
+        @ModelAttribute @Valid UserSearchReportRequest request) {
         Page<ReportResponse> response = reportService.userSearchReport(request);
         return ResponseEntity.ok(
-                ApiResponse.<Page<ReportResponse>>builder()
-                        .data(response)
-                        .build());
+            ApiResponse.<Page<ReportResponse>>builder()
+                .message("Lấy danh sách báo cáo cá nhân thành công")
+                .data(response)
+                .build());
     }
 
-    @Operation(summary = "Tìm kiếm toàn bộ báo cáo [ADMIN]", description = "Quản trị viên tìm kiếm và lọc danh sách tất cả báo cáo")
+    @Operation(
+        summary = "Tìm kiếm toàn bộ báo cáo [ADMIN]",
+        description = "Quản trị viên tìm kiếm và lọc danh sách tất cả báo cáo"
+    )
     @GetMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse<Page<ReportResponse>>> searchReport(@ModelAttribute @Valid SearchReportRequest request) {
+    public ResponseEntity<ApiResponse<Page<ReportResponse>>> searchReport(
+        @ModelAttribute @Valid SearchReportRequest request) {
         Page<ReportResponse> response = reportService.searchReport(request);
         return ResponseEntity.ok(
-                ApiResponse.<Page<ReportResponse>>builder()
-                        .data(response)
-                        .build());
+            ApiResponse.<Page<ReportResponse>>builder()
+                .message("Lấy danh sách báo cáo thành công")
+                .data(response)
+                .build());
     }
 
-    @Operation(summary = "Cập nhật báo cáo [ADMIN]", description = "Cập nhật thông tin nội dung hoặc trạng thái của báo cáo theo ID")
+    @Operation(
+        summary = "Cập nhật báo cáo [ADMIN]",
+        description = "Cập nhật thông tin nội dung hoặc trạng thái của báo cáo theo ID"
+    )
     @PutMapping("/{reportId}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ApiResponse<ReportResponse>> updateReport(
-            @PathVariable long reportId,
-            @RequestBody @Valid UpdateReportRequest request) {
-        ReportResponse response = reportService.updateReport(reportId, request);
+        @PathVariable long reportId,
+        @RequestBody @Valid UpdateReportRequest request) {
+        ReportResponse response = reportService.updateReport(reportId,
+            request);
         return ResponseEntity.ok(
-                ApiResponse.<ReportResponse>builder()
-                        .data(response)
-                        .build());
+            ApiResponse.<ReportResponse>builder()
+                .message("Cập nhật thông tin báo cáo thành công")
+                .data(response)
+                .build());
     }
 }

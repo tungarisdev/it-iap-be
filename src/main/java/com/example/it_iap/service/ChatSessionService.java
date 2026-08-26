@@ -1,7 +1,7 @@
 package com.example.it_iap.service;
 
 import com.example.it_iap.dto.chatMessage.response.ChatMessageResponse;
-import com.example.it_iap.dto.chatSession.request.ChatSessionRequest;
+import com.example.it_iap.dto.chatSession.request.CreateChatSessionRequest;
 import com.example.it_iap.dto.chatSession.respone.ChatSessionResponse;
 import com.example.it_iap.entity.*;
 import com.example.it_iap.entity.enums.PromptUseCase;
@@ -64,7 +64,7 @@ public class ChatSessionService {
     }
 
     @Transactional
-    public ChatSessionResponse createChatSession (ChatSessionRequest request){
+    public ChatSessionResponse createChatSession (CreateChatSessionRequest request){
         User user = userService.getCurrentUser();
         PromptVersion promptVersion = promptVersionService.getPromptActive(PromptUseCase.CUSTOMER_SUPPORT);
         int sessionLimitTokens = user.getActiveTier().getMaxChatbotTokens();

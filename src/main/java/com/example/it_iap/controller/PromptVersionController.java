@@ -11,38 +11,39 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/prompt_versions")
+@RequestMapping("/api/prompt-versions")
 @RequiredArgsConstructor
 public class PromptVersionController {
     private final PromptVersionService promptVersionService;
 
     @Operation(
-            summary = "Lấy chi tiết một phiên bản Prompt",
-            description = "Truy xuất toàn bộ thông tin chi tiết (nội dung, model, provider, note...) của một Prompt Version cụ thể dựa vào PromptKey và mã Version."
+        summary = "Lấy chi tiết một phiên bản Prompt",
+        description = "Truy xuất toàn bộ thông tin chi tiết (nội dung, model, provider, note...) của một Prompt Version cụ thể dựa vào PromptKey và mã Version."
     )
     @GetMapping("/detail")
     public ResponseEntity<ApiResponse<AdminPromptResponse>> getPromptVersion(
-            @Valid @ModelAttribute PromptVersionIdRequest request
+        @Valid @ModelAttribute PromptVersionIdRequest request
     ) {
+        AdminPromptResponse response = promptVersionService.getPromptVersion(request);
         return ResponseEntity.ok(
-                ApiResponse.<AdminPromptResponse>builder()
-                        .code(200)
-                        .data(promptVersionService.getPromptVersion(request))
-                        .build());
+            ApiResponse.<AdminPromptResponse>builder()
+                .message("Lấy chi tiết một phiên bản câu lệnh cấu hình thành công")
+                .data(response)
+                .build());
     }
 
     @Operation(
-            summary = "Kích hoạt (Active) một phiên bản Prompt",
-            description = "Thiết lập một phiên bản làm phiên bản chính thức (Active) cho hệ thống sử dụng."
+        summary = "Kích hoạt (Active) một phiên bản Prompt",
+        description = "Thiết lập một phiên bản làm phiên bản chính thức (Active) cho hệ thống sử dụng."
     )
     @PatchMapping("/active")
-    public ResponseEntity<?> setPromptVersionActive(
-            @Valid @RequestBody PromptVersionIdRequest request
+    public ResponseEntity<ApiResponse<Void>> setPromptVersionActive(
+        @Valid @RequestBody PromptVersionIdRequest request
     ) {
         promptVersionService.setPromptVersionActive(request);
         return ResponseEntity.ok(
-                ApiResponse.builder()
-                        .code(200)
-                        .build());
+            ApiResponse.<Void>builder()
+                .message("Kích hoạt phiên bản câu lệnh cấu hình")
+                .build());
     }
 }

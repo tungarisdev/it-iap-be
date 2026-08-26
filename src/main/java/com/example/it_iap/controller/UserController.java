@@ -28,97 +28,131 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
     private final UserService userService;
 
-    @Operation(summary = "Tạo người dùng mới [ADMIN]", description = "Admin tạo tài khoản người dùng mới trong hệ thống")
+    @Operation(
+        summary = "Tạo người dùng mới [ADMIN]",
+        description = "Admin tạo tài khoản người dùng mới trong hệ thống"
+    )
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ApiResponse<UserResponse>> create(@RequestBody @Valid CreateUserRequest request) {
         UserResponse response = userService.createUser(request);
         return ResponseEntity.ok(
-                ApiResponse.<UserResponse>builder()
+            ApiResponse.<UserResponse>builder()
+                .message("Tạo người dùng mới thành công")
                 .data(response)
-                        .build());
+                .build());
     }
 
-    @Operation(summary = "Cập nhật người dùng [ADMIN]", description = "Admin thay đổi thông tin tài khoản bất kỳ qua UUID")
-    @PutMapping("/{id}")
+    @Operation(
+        summary = "Cập nhật người dùng [ADMIN]",
+        description = "Admin thay đổi thông tin tài khoản bất kỳ qua UUID"
+    )
+    @PutMapping("/{userId}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse<UserResponse>> update(@PathVariable UUID id, @RequestBody @Valid UpdateUserRequest request) {
-        UserResponse response = userService.updateUser(id, request);
+    public ResponseEntity<ApiResponse<UserResponse>> update(@PathVariable UUID userId,
+                                                            @RequestBody @Valid UpdateUserRequest request) {
+        UserResponse response = userService.updateUser(userId,
+            request);
         return ResponseEntity.ok(
-                ApiResponse.<UserResponse>builder()
+            ApiResponse.<UserResponse>builder()
+                .message("Cập nhật thông tin người dùng thành công")
                 .data(response)
-                        .build());
+                .build());
     }
 
-    @Operation(summary = "Lấy thông tin cá nhân", description = "Lấy thông tin chi tiết của người dùng đang đăng nhập")
+    @Operation(
+        summary = "Lấy thông tin cá nhân",
+        description = "Lấy thông tin chi tiết của người dùng đang đăng nhập"
+    )
     @GetMapping("/info")
     public ResponseEntity<ApiResponse<UserResponse>> getInfo() {
         UserResponse response = userService.getInfo();
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
-                .data(response)
-                .build());
+            .message("Lấy thông tin cá nhân thành công")
+            .data(response)
+            .build());
     }
 
-    @Operation(summary = "Cập nhật thông tin cá nhân", description = "Người dùng tự cập nhật thông tin cơ bản của chính mình")
+    @Operation(
+        summary = "Cập nhật thông tin cá nhân",
+        description = "Người dùng tự cập nhật thông tin cơ bản của chính mình"
+    )
     @PutMapping("/info")
     public ResponseEntity<ApiResponse<UserResponse>> updateInfo(@RequestBody @Valid UpdateUserInfoRequest request) {
         UserResponse response = userService.updateInfo(request);
         return ResponseEntity.ok(ApiResponse.<UserResponse>builder()
-                .data(response)
-                .build());
+            .message("Cập nhật thông tin cá nhân thành công")
+            .data(response)
+            .build());
     }
 
-    @Operation(summary = "Cập nhật ảnh đại diện", description = "Tải lên tệp ảnh để thay đổi avatar cá nhân")
+    @Operation(
+        summary = "Cập nhật ảnh đại diện",
+        description = "Tải lên tệp ảnh để thay đổi avatar cá nhân"
+    )
     @PostMapping(consumes = "multipart/form-data", value = "/avatar")
-    public ResponseEntity<?> updateAvatar(@RequestParam("file") MultipartFile file) {
-        String avatarUrl = userService.updateAvatar(file);
-        return ResponseEntity.ok(ApiResponse.builder()
-                .data(avatarUrl)
-                .build());
+    public ResponseEntity<ApiResponse<String>> updateAvatar(@RequestParam("file") MultipartFile file) {
+        String data = userService.updateAvatar(file);
+        return ResponseEntity.ok(ApiResponse.<String>builder()
+            .message("Cập nhật ảnh đại diện thành công")
+            .data(data)
+            .build());
     }
 
-    @Operation(summary = "Đổi mật khẩu", description = "Người dùng tự thay đổi mật khẩu hiện tại")
+    @Operation(
+        summary = "Đổi mật khẩu",
+        description = "Người dùng tự thay đổi mật khẩu hiện tại"
+    )
     @PostMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
+    public ResponseEntity<ApiResponse<Void>> changePassword(@RequestBody @Valid ChangePasswordRequest request) {
         userService.changePassword(request);
         return ResponseEntity.ok(
-                ApiResponse.builder()
-                        .build());
+            ApiResponse.<Void>builder()
+                .message("Đổi mật khẩu thành công")
+                .build());
     }
 
-    @Operation(summary = "Tìm kiếm và lọc danh sách người dùng [Admin]", description = "Hỗ trợ phân trang, lọc và tìm kiếm người dùng nâng cao")
+    @Operation(
+        summary = "Tìm kiếm và lọc danh sách người dùng [Admin]",
+        description = "Hỗ trợ phân trang, lọc và tìm kiếm người dùng nâng cao"
+    )
     @GetMapping()
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<ApiResponse<Page<UserResponse>>> searchUser(@ModelAttribute SearchUserRequest request){
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> searchUser(@ModelAttribute SearchUserRequest request) {
+        Page<UserResponse> data = userService.searchUser(request);
         return ResponseEntity.ok(
-                ApiResponse.<Page<UserResponse>>builder()
-                        .data(userService.searchUser(request))
-                        .build()
+            ApiResponse.<Page<UserResponse>>builder()
+                .message("Lấy danh sách người dùng thành công")
+                .data(data)
+                .build()
         );
     }
 
     @Operation(summary = "Yêu cầu thay đổi địa chỉ email")
     @PostMapping("/change-email")
-    public ResponseEntity<?> changeEmail(@RequestBody @Valid ChangeEmailRequest request) {
+    public ResponseEntity<ApiResponse<Void>> changeEmail(@RequestBody @Valid ChangeEmailRequest request) {
         userService.changeEmail(request);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-                ApiResponse.builder()
-                        .code(202)
-                        .build());
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+            .body(
+                ApiResponse.<Void>builder()
+                    .code(202)
+                    .message("Yêu cầu thay đổi địa chỉ email thành công")
+                    .build());
     }
 
     @Operation(summary = "Xác nhận mã OTP để hoàn tất đổi email")
     @PostMapping("/verify-change-email")
-    public ResponseEntity<?> verifyChangeEmail(@RequestBody @Valid VerifyChangeEmailRequest request) {
+    public ResponseEntity<ApiResponse<Void>> verifyChangeEmail(@RequestBody @Valid VerifyChangeEmailRequest request) {
         userService.verifyChangeEmail(request.getOtp());
         return ResponseEntity.ok(
-                ApiResponse.builder()
-                        .build());
+            ApiResponse.<Void>builder()
+                .message("Xác nhận đổi email thành công")
+                .build());
     }
 }

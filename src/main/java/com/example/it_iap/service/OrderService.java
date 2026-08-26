@@ -1,7 +1,7 @@
 package com.example.it_iap.service;
 
 import com.example.it_iap.dto.order.request.OrderPreviewRequest;
-import com.example.it_iap.dto.order.request.OrderRequest;
+import com.example.it_iap.dto.order.request.CreateOrderRequest;
 import com.example.it_iap.dto.order.response.OrderHistoryResponse;
 import com.example.it_iap.dto.order.response.OrderResponse;
 import com.example.it_iap.dto.order.response.OrderPreviewResponse;
@@ -36,7 +36,7 @@ public class OrderService {
     private final PromotionService promotionService;
     private final UserSubscriptionService userSubscriptionService;
 
-    public OrderResponse createOrder(OrderRequest request) {
+    public OrderResponse createOrder(CreateOrderRequest request) {
         User user = userService.getCurrentUser();
         AccountTier targetTier = AccountTier.from(request.getAccountTier());
 

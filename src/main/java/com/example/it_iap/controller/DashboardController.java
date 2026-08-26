@@ -13,38 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/dashboards")
+@RequestMapping("/api/dashboards")
 @RequiredArgsConstructor
 public class DashboardController {
     private final DashboardService dashboardService;
 
     @Operation(
-            summary = "Lấy thống kê chi tiết theo Profile",
-            description = "Trả về tổng số bài phỏng vấn, điểm trung bình 5 kỹ năng và tỷ lệ cải thiện của một Profile cụ thể (Chủ sở hữu mới xem được)."
+        summary = "Lấy thống kê chi tiết theo Profile",
+        description = "Trả về tổng số bài phỏng vấn, điểm trung bình 5 kỹ năng và tỷ lệ cải thiện của một Profile cụ thể (Chủ sở hữu mới xem được)."
     )
     @GetMapping("/profiles/{profileId}")
     public ResponseEntity<ApiResponse<ProfileAnalyticsResponse>> getProfileStats(@PathVariable Long profileId) {
         ProfileAnalyticsResponse response = dashboardService.getProfileStats(profileId);
 
         return ResponseEntity.ok(
-                ApiResponse.<ProfileAnalyticsResponse>builder()
-                        .data(response)
-                        .build()
+            ApiResponse.<ProfileAnalyticsResponse>builder()
+                .message("Lấy thống kê chi hồ sơ tiết thành công")
+                .data(response)
+                .build()
         );
     }
 
     @Operation(
-            summary = "Lấy tiến trình hoạt động của User",
-            description = "Trả về chuỗi ngày học tập (Streak), danh hiệu (Rank) hiện tại và biểu đồ thống kê hàng ngày của User đang đăng nhập."
+        summary = "Lấy tiến trình hoạt động của User",
+        description = "Trả về chuỗi ngày học tập (Streak), danh hiệu (Rank) hiện tại và biểu đồ thống kê hàng ngày của User đang đăng nhập."
     )
     @GetMapping("/progress")
     public ResponseEntity<ApiResponse<UserProgressResponse>> getUserProgress() {
         UserProgressResponse response = dashboardService.getUserProgress();
 
         return ResponseEntity.ok(
-                ApiResponse.<UserProgressResponse>builder()
-                        .data(response)
-                        .build()
+            ApiResponse.<UserProgressResponse>builder()
+                .message("Lấy tiến trình hoạt động của người dùng thành công")
+                .data(response)
+                .build()
         );
     }
 }

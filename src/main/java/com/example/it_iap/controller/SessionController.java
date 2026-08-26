@@ -16,44 +16,57 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/sessions")
+@RequestMapping("/api/sessions")
 @RequiredArgsConstructor
 @Tag(name = "Session Management", description = "Quản lý phiên đăng nhập thiết bị người dùng")
 public class SessionController {
     private final SessionService sessionService;
     private final UserService userService;
 
-    @Operation(summary = "Lấy danh sách các phiên đăng nhập", description = "Hiển thị tất cả các thiết bị đang đăng nhập tài khoản hiện tại")
+    @Operation(
+        summary = "Lấy danh sách các phiên đăng nhập",
+        description = "Hiển thị tất cả các thiết bị đang đăng nhập tài khoản hiện tại"
+    )
     @GetMapping
     public ResponseEntity<ApiResponse<List<UserSessionResponse>>> getActiveSessions(@AuthenticationPrincipal Jwt jwt) {
         User user = userService.getCurrentUser();
         String currentSessionId = jwt != null ? jwt.getClaimAsString("sid") : null;
 
-        List<UserSessionResponse> sessions = sessionService.getActiveSessions(user, currentSessionId);
+        List<UserSessionResponse> sessions = sessionService.getActiveSessions(user,
+            currentSessionId);
         return ResponseEntity.ok(ApiResponse.<List<UserSessionResponse>>builder()
-                .data(sessions)
-                .build());
+            .message("Lấy danh sách phiên đăng nhập thành công")
+            .data(sessions)
+            .build());
     }
 
-    @Operation(summary = "Đăng xuất một thiết bị cụ thể", description = "Đăng xuất và vô hiệu hóa phiên đăng nhập theo sessionId")
+    @Operation(
+        summary = "Đăng xuất một thiết bị cụ thể",
+        description = "Đăng xuất và vô hiệu hóa phiên đăng nhập theo sessionId"
+    )
     @DeleteMapping("/{sessionId}")
     public ResponseEntity<ApiResponse<Void>> revokeSession(@PathVariable String sessionId) {
         User user = userService.getCurrentUser();
-        sessionService.revokeSession(user, sessionId);
+        sessionService.revokeSession(user,
+            sessionId);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Đăng xuất thiết bị thành công")
-                .build());
+            .message("Đăng xuất thiết bị thành công")
+            .build());
     }
 
-    @Operation(summary = "Đăng xuất tất cả thiết bị khác", description = "Giữ lại phiên đăng nhập hiện tại và đăng xuất tất cả thiết bị khác")
+    @Operation(
+        summary = "Đăng xuất tất cả thiết bị khác",
+        description = "Giữ lại phiên đăng nhập hiện tại và đăng xuất tất cả thiết bị khác"
+    )
     @DeleteMapping("/other")
     public ResponseEntity<ApiResponse<Void>> revokeOtherSessions(@AuthenticationPrincipal Jwt jwt) {
         User user = userService.getCurrentUser();
         String currentSessionId = jwt != null ? jwt.getClaimAsString("sid") : null;
 
-        sessionService.revokeOtherSessions(user, currentSessionId);
+        sessionService.revokeOtherSessions(user,
+            currentSessionId);
         return ResponseEntity.ok(ApiResponse.<Void>builder()
-                .message("Đã đăng xuất khỏi tất cả các thiết bị khác")
-                .build());
+            .message("Đăng xuất tất cả các thiết bị khác thành công")
+            .build());
     }
 }

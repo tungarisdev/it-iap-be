@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class FeedbackRequest {
+public class CreateFeedbackRequest {
     @Range(min = 1, max = 5, message = "RATING_INVALID")
     @NotNull(message = "RATING_INVALID")
     private Integer rating;

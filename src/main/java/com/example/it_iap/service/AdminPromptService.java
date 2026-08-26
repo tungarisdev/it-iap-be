@@ -1,9 +1,9 @@
 package com.example.it_iap.service;
 
-import com.example.it_iap.dto.adminPrompt.request.AdminPromptRequest;
+import com.example.it_iap.dto.adminPrompt.request.CreateAdminPromptRequest;
 import com.example.it_iap.dto.adminPrompt.response.AdminPromptResponse;
 import com.example.it_iap.dto.adminPrompt.response.AdminPromptSummaryResponse;
-import com.example.it_iap.dto.promptVersion.request.PromptVersionRequest;
+import com.example.it_iap.dto.promptVersion.request.CreatePromptVersionRequest;
 import com.example.it_iap.entity.AdminPrompt;
 import com.example.it_iap.entity.PromptVersion;
 import com.example.it_iap.entity.User;
@@ -32,7 +32,7 @@ public class AdminPromptService {
     private final UserService userService;
 
     @Transactional
-    public AdminPromptSummaryResponse createAdminPrompt (AdminPromptRequest request){
+    public AdminPromptSummaryResponse createAdminPrompt (CreateAdminPromptRequest request){
         if (adminPromptRepository.existsByPromptKey(request.getPromptKey())) {
             throw new AppException(ErrorCode.PROMPT_KEY_EXISTS);
         }
@@ -79,7 +79,7 @@ public class AdminPromptService {
     }
 
     @Transactional
-    public AdminPromptResponse addNewVersion (PromptVersionRequest request){
+    public AdminPromptResponse addNewVersion (CreatePromptVersionRequest request){
         AdminPrompt adminPrompt = adminPromptRepository.findById(request.getAdminPromptId())
                 .orElseThrow(() -> new AppException(ErrorCode.PROMPT_NOT_FOUND));
 

@@ -6,7 +6,6 @@ import com.example.it_iap.entity.User;
 import com.example.it_iap.service.SessionService;
 import com.example.it_iap.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/sessions")
 @RequiredArgsConstructor
-@Tag(name = "Session Management", description = "Quản lý phiên đăng nhập thiết bị người dùng")
 public class SessionController {
     private final SessionService sessionService;
     private final UserService userService;

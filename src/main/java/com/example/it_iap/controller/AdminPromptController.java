@@ -9,7 +9,6 @@ import com.example.it_iap.dto.promptVersion.request.CreatePromptVersionRequest;
 import com.example.it_iap.entity.enums.PromptUseCase;
 import com.example.it_iap.service.AdminPromptService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin-prompts")
-@Tag(name = "Quản lý câu lệnh quản trị viên")
 @RequiredArgsConstructor
 public class AdminPromptController {
 

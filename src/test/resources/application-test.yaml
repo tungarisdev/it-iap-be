@@ -1,0 +1,58 @@
+app:
+  frontend-url: http://localhost:5173
+  cookie:
+    secure: false
+  user:
+    default-password: test-user-password
+  admin:
+    email: admin@example.com
+    default-password: test-admin-password
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+  ai:
+    openai:
+      api-key: test-api-key
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+    aes:
+      key: 00112233445566778899aabbccddeeff
+  mail:
+    host: localhost
+    port: 2525
+    username: test
+    password: test
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  task:
+    scheduling:
+      enabled: false
+
+cloudinary:
+  cloud-name: test
+  api-key: test
+  api-secret: test
+
+payos:
+  payout-client-id: test
+  payout-api-key: test
+  payout-checksum-key: test
+  log-level: NONE
+
+jwt:
+  signerKey: test-signing-key-that-is-at-least-sixty-four-characters-long-for-hs512

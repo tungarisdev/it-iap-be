@@ -74,13 +74,13 @@ public class BannerController {
         summary = "Cập nhật thông tin Banner [ADMIN]",
         description = "Admin cập nhật tiêu đề, nội dung hoặc ảnh của banner"
     )
-    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/{bannerId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ApiResponse<BannerResponse>> updateBannerInfo(
-        @PathVariable Long id,
+        @PathVariable Long bannerId,
         @Valid @ModelAttribute BannerRequest request
     ) {
-        BannerResponse data = bannerService.updateBannerInfo(id,
+        BannerResponse data = bannerService.updateBannerInfo(bannerId,
             request);
         return ResponseEntity.ok(
             ApiResponse.<BannerResponse>builder()
@@ -94,13 +94,13 @@ public class BannerController {
         summary = "Bật/Tắt trạng thái Banner [ADMIN]",
         description = "Admin thay đổi nhanh trạng thái active của banner"
     )
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{bannerId}/status")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<ApiResponse<String>> changeActiveStatus(
-        @PathVariable Long id,
+        @PathVariable Long bannerId,
         @RequestParam boolean isActive
     ) {
-        bannerService.changeActiveStatus(id,
+        bannerService.changeActiveStatus(bannerId,
             isActive);
         String message = isActive ? "Bật banner thành công" : "Tắt banner thành công";
 
